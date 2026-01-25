@@ -1,0 +1,25 @@
+name: protocolo_fono
+description: Aplicativo para avaliação fonoaudiológica digital
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  cupertino_icons: ^1.0.2
+  intl: ^0.18.1
+  flutter_colorpicker: ^1.0.3
+  path_provider: ^2.1.5
+  share_plus: ^12.0.1
+  pdf: ^3.10.7
+  printing: ^5.11.3
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
