@@ -13,19 +13,18 @@ class PacienteScreen extends StatefulWidget {
 class _PacienteScreenState extends State<PacienteScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nomeController = TextEditingController();
-  final _escolaController = TextEditingController();
-  final _encaminhamentoController = TextEditingController();
-  final _motivoController = TextEditingController();
-  final _contatoController = TextEditingController();
-  final _observacoesController = TextEditingController();
+  final _idadeController = TextEditingController();
+  final _dataPreenchimentoController = TextEditingController();
 
   DateTime? _dataNascimento;
-  String? _escolaridade;
-  String? _encaminhamento;
-  
-  // Nova variável para idade
-  final TextEditingController _idadeController = TextEditingController();
   String _unidadeIdade = 'anos'; // 'anos' ou 'meses'
+
+  @override
+  void initState() {
+    super.initState();
+    // Preencher data de preenchimento automaticamente
+    _dataPreenchimentoController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +39,7 @@ class _PacienteScreenState extends State<PacienteScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Nome do Paciente
               TextFormField(
                 controller: _nomeController,
                 decoration: const InputDecoration(
@@ -56,6 +56,7 @@ class _PacienteScreenState extends State<PacienteScreen> {
               ),
               const SizedBox(height: 16),
 
+              // Data de Nascimento (Selecionador)
               InkWell(
                 onTap: () async {
                   final selectedDate = await showDatePicker(
@@ -67,12 +68,13 @@ class _PacienteScreenState extends State<PacienteScreen> {
                   if (selectedDate != null) {
                     setState(() {
                       _dataNascimento = selectedDate;
+                      _calcularIdade();
                     });
                   }
                 },
                 child: InputDecorator(
                   decoration: const InputDecoration(
-                    labelText: 'Data de Nascimento',
+                    labelText: 'Data de Nascimento*',
                     prefixIcon: Icon(Icons.calendar_today),
                     border: OutlineInputBorder(),
                   ),
@@ -84,9 +86,7 @@ class _PacienteScreenState extends State<PacienteScreen> {
                             ? DateFormat('dd/MM/yyyy').format(_dataNascimento!)
                             : 'Selecione a data',
                         style: TextStyle(
-                          color: _dataNascimento != null 
-                              ? Colors.black 
-                              : Colors.grey,
+                          color: _dataNascimento != null ? Colors.black : Colors.grey,
                         ),
                       ),
                       const Icon(Icons.arrow_drop_down),
@@ -96,7 +96,7 @@ class _PacienteScreenState extends State<PacienteScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Campo de idade com seleção de unidade
+              // Campo de Idade (Autopreenchido)
               Row(
                 children: [
                   Expanded(
@@ -104,17 +104,15 @@ class _PacienteScreenState extends State<PacienteScreen> {
                     child: TextFormField(
                       controller: _idadeController,
                       keyboardType: TextInputType.number,
+                      readOnly: true, // Campo somente leitura
                       decoration: const InputDecoration(
-                        labelText: 'Idade*',
+                        labelText: 'Idade (Autopreenchido)*',
                         prefixIcon: Icon(Icons.cake),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Por favor, informe a idade';
-                        }
-                        if (int.tryParse(value) == null) {
-                          return 'Idade inválida';
+                          return 'Selecione a data de nascimento';
                         }
                         return null;
                       },
@@ -150,92 +148,15 @@ class _PacienteScreenState extends State<PacienteScreen> {
               ),
               const SizedBox(height: 16),
 
-              DropdownButtonFormField<String>(
-                initialValue: _escolaridade,
-                decoration: const InputDecoration(
-                  labelText: 'Escolaridade',
-                  prefixIcon: Icon(Icons.school),
-                  border: OutlineInputBorder(),
-                ),
-                items: AppConstants.escolaridades
-                    .map((escolaridade) => DropdownMenuItem(
-                          value: escolaridade,
-                          child: Text(escolaridade),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _escolaridade = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-
+              // Data de Preenchimento (Autopreenchida)
               TextFormField(
-                controller: _escolaController,
+                controller: _dataPreenchimentoController,
+                readOnly: true,
                 decoration: const InputDecoration(
-                  labelText: 'Escola/Creche',
-                  prefixIcon: Icon(Icons.school),
+                  labelText: 'Data de Preenchimento',
+                  prefixIcon: Icon(Icons.event),
                   border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              DropdownButtonFormField<String>(
-                initialValue: _encaminhamento,
-                decoration: const InputDecoration(
-                  labelText: 'Encaminhamento',
-                  prefixIcon: Icon(Icons.assignment_turned_in),
-                  border: OutlineInputBorder(),
-                ),
-                items: AppConstants.encaminhamentos
-                    .map((encaminhamento) => DropdownMenuItem(
-                          value: encaminhamento,
-                          child: Text(encaminhamento),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _encaminhamento = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-
-              TextFormField(
-                controller: _motivoController,
-                maxLines: 3,
-                decoration: const InputDecoration(
-                  labelText: 'Motivo do Encaminhamento*',
-                  alignLabelWithHint: true,
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, informe o motivo';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-
-              TextFormField(
-                controller: _contatoController,
-                decoration: const InputDecoration(
-                  labelText: 'Contato (telefone/email)',
-                  prefixIcon: Icon(Icons.contact_phone),
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              TextFormField(
-                controller: _observacoesController,
-                maxLines: 4,
-                decoration: const InputDecoration(
-                  labelText: 'Observações',
-                  alignLabelWithHint: true,
-                  border: OutlineInputBorder(),
+                  helperText: 'Preenchida automaticamente',
                 ),
               ),
               const SizedBox(height: 32),
@@ -260,8 +181,49 @@ class _PacienteScreenState extends State<PacienteScreen> {
     );
   }
 
+  /// Calcula a idade automaticamente com base na data de nascimento
+  void _calcularIdade() {
+    if (_dataNascimento == null) {
+      _idadeController.clear();
+      return;
+    }
+
+    final agora = DateTime.now();
+    int anos = agora.year - _dataNascimento!.year;
+    int meses = agora.month - _dataNascimento!.month;
+
+    if (meses < 0) {
+      anos--;
+      meses += 12;
+    }
+
+    if (agora.day < _dataNascimento!.day && meses > 0) {
+      meses--;
+    }
+
+    // Se tem menos de 2 anos, mostrar em meses
+    if (anos < 2) {
+      final mesesTotais = anos * 12 + meses;
+      _idadeController.text = mesesTotais.toString();
+      setState(() => _unidadeIdade = 'meses');
+    } else {
+      _idadeController.text = anos.toString();
+      setState(() => _unidadeIdade = 'anos');
+    }
+  }
+
   void _salvarEContinuar() {
     if (_formKey.currentState!.validate()) {
+      if (_dataNascimento == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Por favor, selecione a data de nascimento'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -269,8 +231,10 @@ class _PacienteScreenState extends State<PacienteScreen> {
             nomePaciente: _nomeController.text,
             idadePaciente: _idadeController.text,
             unidadeIdade: _unidadeIdade,
-            escolaridade: _escolaridade ?? '',
-            motivo: _motivoController.text,
+            dataNascimento: _dataNascimento!,
+            dataPreenchimento: DateTime.now(),
+            escolaridade: '',
+            motivo: '',
           ),
         ),
       );
@@ -281,11 +245,7 @@ class _PacienteScreenState extends State<PacienteScreen> {
   void dispose() {
     _nomeController.dispose();
     _idadeController.dispose();
-    _escolaController.dispose();
-    _encaminhamentoController.dispose();
-    _motivoController.dispose();
-    _contatoController.dispose();
-    _observacoesController.dispose();
+    _dataPreenchimentoController.dispose();
     super.dispose();
   }
 }
