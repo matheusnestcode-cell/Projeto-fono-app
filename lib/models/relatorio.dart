@@ -1,113 +1,198 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class Relatorio {
-  final String? id;
+  final String id; // UUID gerado localmente
   final String nomePaciente;
   final int idadePaciente;
-  final String unidadeIdade; // 'anos' ou 'meses'
+  final String unidadeIdade; // "anos" ou "meses"
   final DateTime dataNascimento;
   final DateTime dataPreenchimento;
-  final String nomeAvaliador;
-  final Map<String, int> dialogo;
-  final Map<String, int> funcoes;
-  final int meiosComunicacao;
-  final int nivelContextualizacao;
-  final int compreensaoVerbal;
-  final Map<String, int> manipulacao;
-  final int desenvolvimentoSimbolismo;
-  final int organizacaoBrinquedo;
-  final String observacoes;
-  final String conclusoes;
-  final int totalHabilidades;
-  final int totalCognitivo;
-  final int totalGeral;
-  final String userUid; // UID do usuário que criou o relatório
-  final DateTime criadoEm;
-  final DateTime? atualizadoEm;
+  final DateTime? dataProximaAvaliacao;
+  final String statusAvaliacao; // "completo", "pendente", "revisão"
+  
+  final Triagem triagem;
+  final List<Avaliacao> avaliacoes;
+  final Diagnostico? diagnostico;
 
   Relatorio({
-    this.id,
+    required this.id,
     required this.nomePaciente,
     required this.idadePaciente,
     required this.unidadeIdade,
     required this.dataNascimento,
     required this.dataPreenchimento,
-    required this.nomeAvaliador,
-    required this.dialogo,
-    required this.funcoes,
-    required this.meiosComunicacao,
-    required this.nivelContextualizacao,
-    required this.compreensaoVerbal,
-    required this.manipulacao,
-    required this.desenvolvimentoSimbolismo,
-    required this.organizacaoBrinquedo,
-    required this.observacoes,
-    required this.conclusoes,
-    required this.totalHabilidades,
-    required this.totalCognitivo,
-    required this.totalGeral,
-    required this.userUid,
-    DateTime? criadoEm,
-    this.atualizadoEm,
-  }) : criadoEm = criadoEm ?? DateTime.now();
+    this.dataProximaAvaliacao,
+    required this.statusAvaliacao,
+    required this.triagem,
+    required this.avaliacoes,
+    this.diagnostico,
+  });
 
-  // Converter para JSON para enviar ao Firestore
+  // Converter para JSON (salvar localmente)
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'nomePaciente': nomePaciente,
       'idadePaciente': idadePaciente,
       'unidadeIdade': unidadeIdade,
-      'dataNascimento': Timestamp.fromDate(dataNascimento),
-      'dataPreenchimento': Timestamp.fromDate(dataPreenchimento),
-      'nomeAvaliador': nomeAvaliador,
-      'dialogo': dialogo,
-      'funcoes': funcoes,
-      'meiosComunicacao': meiosComunicacao,
-      'nivelContextualizacao': nivelContextualizacao,
-      'compreensaoVerbal': compreensaoVerbal,
-      'manipulacao': manipulacao,
-      'desenvolvimentoSimbolismo': desenvolvimentoSimbolismo,
-      'organizacaoBrinquedo': organizacaoBrinquedo,
-      'observacoes': observacoes,
-      'conclusoes': conclusoes,
-      'totalHabilidades': totalHabilidades,
-      'totalCognitivo': totalCognitivo,
-      'totalGeral': totalGeral,
-      'userUid': userUid,
-      'criadoEm': Timestamp.fromDate(criadoEm),
-      'atualizadoEm': atualizadoEm != null ? Timestamp.fromDate(atualizadoEm!) : null,
+      'dataNascimento': dataNascimento.toIso8601String(),
+      'dataPreenchimento': dataPreenchimento.toIso8601String(),
+      'dataProximaAvaliacao': dataProximaAvaliacao?.toIso8601String(),
+      'statusAvaliacao': statusAvaliacao,
+      'triagem': triagem.toJson(),
+      'avaliacoes': avaliacoes.map((a) => a.toJson()).toList(),
+      'diagnostico': diagnostico?.toJson(),
     };
   }
 
-  // Criar Relatório a partir do Firestore
-  factory Relatorio.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
+  // Converter de JSON
+  factory Relatorio.fromJson(Map<String, dynamic> json) {
     return Relatorio(
-      id: doc.id,
-      nomePaciente: data['nomePaciente'] ?? '',
-      idadePaciente: data['idadePaciente'] ?? 0,
-      unidadeIdade: data['unidadeIdade'] ?? 'anos',
-      dataNascimento: (data['dataNascimento'] as Timestamp).toDate(),
-      dataPreenchimento: (data['dataPreenchimento'] as Timestamp).toDate(),
-      nomeAvaliador: data['nomeAvaliador'] ?? '',
-      dialogo: Map<String, int>.from(data['dialogo'] ?? {}),
-      funcoes: Map<String, int>.from(data['funcoes'] ?? {}),
-      meiosComunicacao: data['meiosComunicacao'] ?? 0,
-      nivelContextualizacao: data['nivelContextualizacao'] ?? 0,
-      compreensaoVerbal: data['compreensaoVerbal'] ?? 0,
-      manipulacao: Map<String, int>.from(data['manipulacao'] ?? {}),
-      desenvolvimentoSimbolismo: data['desenvolvimentoSimbolismo'] ?? 0,
-      organizacaoBrinquedo: data['organizacaoBrinquedo'] ?? 0,
-      observacoes: data['observacoes'] ?? '',
-      conclusoes: data['conclusoes'] ?? '',
-      totalHabilidades: data['totalHabilidades'] ?? 0,
-      totalCognitivo: data['totalCognitivo'] ?? 0,
-      totalGeral: data['totalGeral'] ?? 0,
-      userUid: data['userUid'] ?? '',
-      criadoEm: (data['criadoEm'] as Timestamp).toDate(),
-      atualizadoEm: data['atualizadoEm'] != null 
-          ? (data['atualizadoEm'] as Timestamp).toDate() 
+      id: json['id'],
+      nomePaciente: json['nomePaciente'],
+      idadePaciente: json['idadePaciente'],
+      unidadeIdade: json['unidadeIdade'],
+      dataNascimento: DateTime.parse(json['dataNascimento']),
+      dataPreenchimento: DateTime.parse(json['dataPreenchimento']),
+      dataProximaAvaliacao: json['dataProximaAvaliacao'] != null 
+          ? DateTime.parse(json['dataProximaAvaliacao']) 
           : null,
+      statusAvaliacao: json['statusAvaliacao'],
+      triagem: Triagem.fromJson(json['triagem']),
+      avaliacoes: List<Avaliacao>.from(
+        json['avaliacoes'].map((a) => Avaliacao.fromJson(a))
+      ),
+      diagnostico: json['diagnostico'] != null 
+          ? Diagnostico.fromJson(json['diagnostico']) 
+          : null,
+    );
+  }
+}
+
+class Triagem {
+  final String queixaPrincipal;
+  final String duracaoQueixa;
+  final String historicoPaciente;
+  final String medicacoes;
+  final String comorbidades;
+  final String historicoFamiliar;
+  final String ambienteFamily;
+  final String escolaridade;
+
+  Triagem({
+    required this.queixaPrincipal,
+    required this.duracaoQueixa,
+    required this.historicoPaciente,
+    required this.medicacoes,
+    required this.comorbidades,
+    required this.historicoFamiliar,
+    required this.ambienteFamily,
+    required this.escolaridade,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'queixaPrincipal': queixaPrincipal,
+      'duracaoQueixa': duracaoQueixa,
+      'historicoPaciente': historicoPaciente,
+      'medicacoes': medicacoes,
+      'comorbidades': comorbidades,
+      'historicoFamiliar': historicoFamiliar,
+      'ambienteFamily': ambienteFamily,
+      'escolaridade': escolaridade,
+    };
+  }
+
+  factory Triagem.fromJson(Map<String, dynamic> json) {
+    return Triagem(
+      queixaPrincipal: json['queixaPrincipal'] ?? '',
+      duracaoQueixa: json['duracaoQueixa'] ?? '',
+      historicoPaciente: json['historicoPaciente'] ?? '',
+      medicacoes: json['medicacoes'] ?? '',
+      comorbidades: json['comorbidades'] ?? '',
+      historicoFamiliar: json['historicoFamiliar'] ?? '',
+      ambienteFamily: json['ambienteFamily'] ?? '',
+      escolaridade: json['escolaridade'] ?? '',
+    );
+  }
+}
+
+class Avaliacao {
+  final String id;
+  final String nomeAvaliacao;
+  final DateTime dataAvaliacao;
+  final double? pontuacao;
+  final Map<String, dynamic> resultado;
+  final String observacoes;
+  final bool statusConclusao;
+
+  Avaliacao({
+    required this.id,
+    required this.nomeAvaliacao,
+    required this.dataAvaliacao,
+    this.pontuacao,
+    required this.resultado,
+    required this.observacoes,
+    required this.statusConclusao,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'nomeAvaliacao': nomeAvaliacao,
+      'dataAvaliacao': dataAvaliacao.toIso8601String(),
+      'pontuacao': pontuacao,
+      'resultado': resultado,
+      'observacoes': observacoes,
+      'statusConclusao': statusConclusao,
+    };
+  }
+
+  factory Avaliacao.fromJson(Map<String, dynamic> json) {
+    return Avaliacao(
+      id: json['id'],
+      nomeAvaliacao: json['nomeAvaliacao'],
+      dataAvaliacao: DateTime.parse(json['dataAvaliacao']),
+      pontuacao: json['pontuacao'],
+      resultado: json['resultado'] ?? {},
+      observacoes: json['observacoes'] ?? '',
+      statusConclusao: json['statusConclusao'] ?? false,
+    );
+  }
+}
+
+class Diagnostico {
+  final String diagnostico;
+  final String cid10;
+  final String condutaTerapeutica;
+  final String frequenciaeSessoes;
+  final DateTime dataConclusao;
+
+  Diagnostico({
+    required this.diagnostico,
+    required this.cid10,
+    required this.condutaTerapeutica,
+    required this.frequenciaeSessoes,
+    required this.dataConclusao,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'diagnostico': diagnostico,
+      'cid10': cid10,
+      'condutaTerapeutica': condutaTerapeutica,
+      'frequenciaeSessoes': frequenciaeSessoes,
+      'dataConclusao': dataConclusao.toIso8601String(),
+    };
+  }
+
+  factory Diagnostico.fromJson(Map<String, dynamic> json) {
+    return Diagnostico(
+      diagnostico: json['diagnostico'] ?? '',
+      cid10: json['cid10'] ?? '',
+      condutaTerapeutica: json['condutaTerapeutica'] ?? '',
+      frequenciaeSessoes: json['frequenciaeSessoes'] ?? '',
+      dataConclusao: DateTime.parse(json['dataConclusao']),
     );
   }
 }
