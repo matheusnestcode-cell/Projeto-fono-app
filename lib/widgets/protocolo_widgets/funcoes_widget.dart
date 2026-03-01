@@ -43,7 +43,7 @@ class _FuncoesWidgetState extends State<FuncoesWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Card(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -160,7 +160,7 @@ class _FuncoesWidgetState extends State<FuncoesWidget> {
                       onPressed: () => onChanged(pontos),
                       style: OutlinedButton.styleFrom(
                         backgroundColor: valorSelecionado == pontos
-                            ? Theme.of(context).primaryColor.withOpacity(0.1)
+                            ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
                             : null,
                         side: BorderSide(
                           color: valorSelecionado == pontos

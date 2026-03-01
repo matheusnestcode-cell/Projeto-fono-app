@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:protocolo_fono/services/firebase_service.dart';
-import 'package:protocolo_fono/screens/register_screen.dart';
-import 'package:protocolo_fono/screens/home_screen.dart';
+import 'register_screen.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -182,24 +181,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() => _loading = true);
 
-    final sucesso = await FirebaseService().login(
-      _emailController.text.trim(),
-      _senhaController.text,
-    );
+    // TODO: Implementar autenticação local ou remota
+    // Por enquanto, apenas navega para a tela inicial
+    await Future.delayed(const Duration(milliseconds: 500));
 
     setState(() => _loading = false);
 
-    if (sucesso && mounted) {
+    if (mounted) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const HomeScreen()),
         (route) => false,
-      );
-    } else if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Email ou senha incorretos'),
-          backgroundColor: Colors.red,
-        ),
       );
     }
   }
@@ -207,29 +198,22 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _recuperarSenha() async {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, informe seu email'),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Por favor, informe seu email'),
+          ),
+        );
+      }
       return;
     }
 
-    setState(() => _loading = true);
-    final sucesso =
-        await FirebaseService().resetarSenha(email);
-    setState(() => _loading = false);
-
+    // TODO: Implementar recuperação de senha
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            sucesso
-                ? 'Email de recuperação enviado'
-                : 'Erro ao enviar email de recuperação',
-          ),
-          backgroundColor:
-              sucesso ? Colors.green : Colors.red,
+        const SnackBar(
+          content: Text('Funcionalidade em desenvolvimento'),
+          backgroundColor: Colors.orange,
         ),
       );
     }

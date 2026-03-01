@@ -276,11 +276,10 @@ class ResultadosScreen extends StatelessWidget {
       await file.writeAsBytes(await pdf.save());
 
       // Compartilhar o PDF
-      await Share.shareFiles(
-        [file.path],
+      await Share.shareXFiles(
+        [XFile(file.path)],
         subject: 'Resultados da Avaliação - $nomePaciente',
         text: 'Segue em anexo os resultados da avaliação fonoaudiológica de $nomePaciente.',
-        mimeTypes: ['application/pdf'],
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

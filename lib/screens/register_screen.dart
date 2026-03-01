@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:protocolo_fono/services/firebase_service.dart';
-import 'package:protocolo_fono/screens/login_screen.dart';
+import '../services/firebase_service.dart';
+import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

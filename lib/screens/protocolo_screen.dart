@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:protocolo_fono/widgets/protocolo_widgets/dialogo_widget.dart';
-import 'package:protocolo_fono/widgets/protocolo_widgets/funcoes_widget.dart';
-import 'package:protocolo_fono/widgets/protocolo_widgets/meios_widget.dart';
-import 'package:protocolo_fono/widgets/protocolo_widgets/compreensao_widget.dart';
-import 'package:protocolo_fono/widgets/protocolo_widgets/cognitivo_widget.dart';
-import 'package:protocolo_fono/screens/resultados_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../widgets/protocolo_widgets/dialogo_widget.dart';
+import '../widgets/protocolo_widgets/funcoes_widget.dart';
+import '../widgets/protocolo_widgets/meios_widget.dart';
+import '../widgets/protocolo_widgets/compreensao_widget.dart';
+import '../widgets/protocolo_widgets/cognitivo_widget.dart';
+import '../models/relatorio.dart';
+import '../services/relatorio_service.dart';
+import 'resultados_screen.dart';
 
-class ProtocoloScreen extends StatefulWidget {
+class ProtocoloScreen extends ConsumerStatefulWidget {
   final String nomePaciente;
   final String idadePaciente;
   final String unidadeIdade;
@@ -23,10 +26,10 @@ class ProtocoloScreen extends StatefulWidget {
   });
 
   @override
-  State<ProtocoloScreen> createState() => _ProtocoloScreenState();
+  ConsumerState<ProtocoloScreen> createState() => _ProtocoloScreenState();
 }
 
-class _ProtocoloScreenState extends State<ProtocoloScreen> {
+class _ProtocoloScreenState extends ConsumerState<ProtocoloScreen> {
   int _currentStep = 0;
   final List<GlobalKey<FormState>> _formKeys = List.generate(6, (_) => GlobalKey<FormState>());
 
@@ -278,7 +281,7 @@ class _ProtocoloScreenState extends State<ProtocoloScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Card(
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -369,7 +372,7 @@ class _ProtocoloScreenState extends State<ProtocoloScreen> {
     
     return Card(
       elevation: isSelected ? 4 : 1,
-      color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : null,
+      color: isSelected ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : null,
       child: InkWell(
         onTap: () {
           setState(() {
@@ -459,7 +462,7 @@ class _ProtocoloScreenState extends State<ProtocoloScreen> {
     );
   }
 
-  void _finalizarProtocolo() {
+  Future<void> _finalizarProtocolo() async {
     // Calcular totais
     final totalDialogo = _dialogo.values.fold(0, (sum, value) => sum + value);
     final totalFuncoes = _funcoes.values.fold(0, (sum, value) => sum + value);
@@ -467,6 +470,47 @@ class _ProtocoloScreenState extends State<ProtocoloScreen> {
     final totalManipulacao = _manipulacao.values.fold(0, (sum, value) => sum + value);
     final totalCognitivo = totalManipulacao + _desenvolvimentoSimbolismo + _organizacaoBrinquedo;
     final totalGeral = totalHabilidades + _compreensaoVerbal + totalCognitivo;
+
+    // Criar objeto Relatorio
+    final relatorio = Relatorio(
+      id: RelatorioService.gerarNovoId(),
+      nomePaciente: widget.nomePaciente,
+      idadePaciente: int.tryParse(widget.idadePaciente) ?? 0,
+      unidadeIdade: widget.unidadeIdade,
+      dataNascimento: DateTime.now(), // TODO: Passar data real
+      dataPreenchimento: DateTime.now(),
+      statusAvaliacao: 'completo',
+      triagem: Triagem(
+        queixaPrincipal: widget.motivo,
+        duracaoQueixa: '',
+        historicoPaciente: '',
+        medicacoes: '',
+        comorbidades: '',
+        historicoFamiliar: '',
+        ambienteFamily: '',
+        escolaridade: widget.escolaridade,
+      ),
+      avaliacoes: [
+        Avaliacao(
+          id: '1',
+          nomeAvaliacao: 'Protocolo Zorzi & Hage',
+          dataAvaliacao: DateTime.now(),
+          pontuacao: totalGeral.toDouble(),
+          resultado: {
+            'totalHabilidades': totalHabilidades,
+            'totalCognitivo': totalCognitivo,
+            'compreensaoVerbal': _compreensaoVerbal,
+          },
+          observacoes: '',
+          statusConclusao: true,
+        ),
+      ],
+    );
+
+    // Salvar localmente
+    await RelatorioService().salvarRelatorio(relatorio);
+
+    if (!mounted) return;
 
     // Navegar para resultados
     Navigator.push(

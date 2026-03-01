@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:protocolo_fono/screens/home_screen.dart';
-import 'package:protocolo_fono/theme/app_theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'screens/home_screen.dart';
+import 'theme/app_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

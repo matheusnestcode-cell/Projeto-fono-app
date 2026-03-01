@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:protocolo_fono/screens/protocolo_screen.dart';
-import 'package:protocolo_fono/utils/constants.dart';
+import 'protocolo_screen.dart';
+import '../utils/constants.dart';
 
 class PacienteScreen extends StatefulWidget {
   const PacienteScreen({super.key});
@@ -231,8 +231,6 @@ class _PacienteScreenState extends State<PacienteScreen> {
             nomePaciente: _nomeController.text,
             idadePaciente: _idadeController.text,
             unidadeIdade: _unidadeIdade,
-            dataNascimento: _dataNascimento!,
-            dataPreenchimento: DateTime.now(),
             escolaridade: '',
             motivo: '',
           ),

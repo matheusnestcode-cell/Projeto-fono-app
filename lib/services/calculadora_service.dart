@@ -1,4 +1,4 @@
-import 'package:protocolo_fono/models/protocolo.dart';
+import '../models/protocolo.dart';
 
 class CalculadoraService {
   static Map<String, dynamic> calcularResultados(ProtocoloCompleto protocolo) {

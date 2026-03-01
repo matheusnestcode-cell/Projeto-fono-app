@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:protocolo_fono/screens/paciente_screen.dart';
+import 'paciente_screen.dart';
+import 'historico_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -59,7 +60,14 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HistoricoScreen(),
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.history),
                 label: const Text('HISTÓRICO'),
                 style: OutlinedButton.styleFrom(

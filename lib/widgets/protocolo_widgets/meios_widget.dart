@@ -44,7 +44,7 @@ class _MeiosWidgetState extends State<MeiosWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Card(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -92,7 +92,7 @@ class _MeiosWidgetState extends State<MeiosWidget> {
                           },
                           style: OutlinedButton.styleFrom(
                             backgroundColor: _comOralidade
-                                ? Theme.of(context).primaryColor.withOpacity(0.1)
+                                ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
                                 : null,
                             side: BorderSide(
                               color: _comOralidade
@@ -114,7 +114,7 @@ class _MeiosWidgetState extends State<MeiosWidget> {
                           },
                           style: OutlinedButton.styleFrom(
                             backgroundColor: !_comOralidade
-                                ? Theme.of(context).primaryColor.withOpacity(0.1)
+                                ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
                                 : null,
                             side: BorderSide(
                               color: !_comOralidade
@@ -191,7 +191,7 @@ class _MeiosWidgetState extends State<MeiosWidget> {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: isSelected ? 4 : 1,
-      color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : null,
+      color: isSelected ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : null,
       child: InkWell(
         onTap: () => widget.onChanged(valor),
         borderRadius: BorderRadius.circular(12),

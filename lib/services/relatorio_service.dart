@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:developer' as developer;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../models/relatorio.dart';
@@ -34,7 +35,7 @@ class RelatorioService {
           .map((data) => Relatorio.fromJson(data))
           .toList();
     } catch (e) {
-      print('Erro ao listar relatórios: $e');
+      developer.log('Erro ao listar relatórios: $e');
       return [];
     }
   }
@@ -53,7 +54,7 @@ class RelatorioService {
       await file.writeAsString(jsonData);
       return relatorio;
     } catch (e) {
-      print('Erro ao salvar relatório: $e');
+      developer.log('Erro ao salvar relatório: $e');
       rethrow;
     }
   }
@@ -67,7 +68,7 @@ class RelatorioService {
         orElse: () => null as Relatorio?,
       );
     } catch (e) {
-      print('Erro ao obter relatório: $e');
+      developer.log('Erro ao obter relatório: $e');
       return null;
     }
   }
@@ -92,7 +93,7 @@ class RelatorioService {
       await file.writeAsString(jsonData);
       return relatorio;
     } catch (e) {
-      print('Erro ao atualizar relatório: $e');
+      developer.log('Erro ao atualizar relatório: $e');
       rethrow;
     }
   }
@@ -110,7 +111,7 @@ class RelatorioService {
       
       await file.writeAsString(jsonData);
     } catch (e) {
-      print('Erro ao deletar relatório: $e');
+      developer.log('Erro ao deletar relatório: $e');
       rethrow;
     }
   }
@@ -130,7 +131,7 @@ class RelatorioService {
               .contains(nome.toLowerCase()))
           .toList();
     } catch (e) {
-      print('Erro ao buscar relatórios: $e');
+      developer.log('Erro ao buscar relatórios: $e');
       return [];
     }
   }
