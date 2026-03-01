@@ -625,7 +625,7 @@ class ResultadosScreen extends StatelessWidget {
                   ],
                 ),
                 TableRow(
-                  decoration: BoxDecoration(color: const Color.fromARGB(255, 241, 28, 13)),
+                  decoration: const BoxDecoration(color: Color.fromARGB(255, 241, 28, 13)),
                   children: [
                     const Padding(
                         padding: EdgeInsets.all(8),

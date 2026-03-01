@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "289119811920",
+    "firebase_url": "https://app-fono-d4315-default-rtdb.firebaseio.com",
+    "project_id": "app-fono-d4315",
+    "storage_bucket": "app-fono-d4315.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289119811920:android:ba5e43f07540695a229455",
+        "android_client_info": {
+          "package_name": "com.example.protocolo_fono"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj3LbhxTOcE0S9rXaWZNHR9v2Qv8LpqSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
