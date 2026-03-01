@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'screens/home_screen.dart';
-import 'theme/app_theme.dart';
-=======
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
@@ -11,7 +7,6 @@ import 'screens/dashboard_screen.dart';
 import 'screens/perfil_screen.dart';
 import 'theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
->>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

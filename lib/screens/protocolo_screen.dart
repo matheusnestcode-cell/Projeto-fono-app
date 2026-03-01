@@ -1,14 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:fono_app/widgets/protocolo_widgets/cognitivo_widget.dart';
-import 'package:fono_app/widgets/protocolo_widgets/compreensao_widget.dart';
-import 'package:fono_app/widgets/protocolo_widgets/dialogo_widget.dart';
-import 'package:fono_app/widgets/protocolo_widgets/funcoes_widget.dart';
-import 'package:fono_app/widgets/protocolo_widgets/meios_widget.dart';
-=======
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fono_app/services/firebase_service.dart';
 import '../widgets/protocolo_widgets/dialogo_widget.dart';
 import '../widgets/protocolo_widgets/funcoes_widget.dart';
 import '../widgets/protocolo_widgets/meios_widget.dart';
@@ -16,7 +10,6 @@ import '../widgets/protocolo_widgets/compreensao_widget.dart';
 import '../widgets/protocolo_widgets/cognitivo_widget.dart';
 import '../models/relatorio.dart';
 import '../services/relatorio_service.dart';
->>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
 import 'resultados_screen.dart';
 
 class ProtocoloScreen extends ConsumerStatefulWidget {

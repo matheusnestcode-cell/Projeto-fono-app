@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'paciente_screen.dart';
-<<<<<<< HEAD
-=======
 import 'historico_screen.dart';
->>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

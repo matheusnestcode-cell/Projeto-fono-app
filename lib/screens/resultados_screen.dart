@@ -333,13 +333,7 @@ class ResultadosScreen extends StatelessWidget {
       await Share.shareXFiles(
         [XFile(file.path)],
         subject: 'Resultados da Avaliação - $nomePaciente',
-<<<<<<< HEAD
-        text:
-            'Segue em anexo os resultados da avaliação fonoaudiológica de $nomePaciente.',
-        mimeTypes: ['application/pdf'],
-=======
         text: 'Segue em anexo os resultados da avaliação fonoaudiológica de $nomePaciente.',
->>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
