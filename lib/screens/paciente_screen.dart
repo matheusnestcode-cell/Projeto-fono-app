@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'protocolo_screen.dart';
+<<<<<<< HEAD
+=======
+>>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
 
 class PacienteScreen extends StatefulWidget {
   const PacienteScreen({super.key});
@@ -230,8 +233,6 @@ class _PacienteScreenState extends State<PacienteScreen> {
             nomePaciente: _nomeController.text,
             idadePaciente: _idadeController.text,
             unidadeIdade: _unidadeIdade,
-            dataNascimento: _dataNascimento!,
-            dataPreenchimento: DateTime.now(),
             escolaridade: '',
             motivo: '',
           ),

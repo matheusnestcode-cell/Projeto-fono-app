@@ -64,7 +64,7 @@ class _CognitivoWidgetState extends State<CognitivoWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Card(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -279,7 +279,7 @@ class _CognitivoWidgetState extends State<CognitivoWidget> {
                       onPressed: () => onChanged(pontos),
                       style: OutlinedButton.styleFrom(
                         backgroundColor: valorSelecionado == pontos
-                            ? Theme.of(context).primaryColor.withOpacity(0.1)
+                            ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
                             : null,
                         side: BorderSide(
                           color: valorSelecionado == pontos
@@ -320,7 +320,7 @@ class _CognitivoWidgetState extends State<CognitivoWidget> {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       elevation: isSelected ? 2 : 1,
-      color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : null,
+      color: isSelected ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : null,
       child: InkWell(
         onTap: () => widget.onSimbolismoChanged(valor),
         child: Padding(
@@ -384,7 +384,7 @@ class _CognitivoWidgetState extends State<CognitivoWidget> {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       elevation: isSelected ? 2 : 1,
-      color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : null,
+      color: isSelected ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : null,
       child: InkWell(
         onTap: () => widget.onOrganizacaoChanged(valor),
         child: Padding(

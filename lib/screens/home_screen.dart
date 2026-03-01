@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'paciente_screen.dart';
+<<<<<<< HEAD
+=======
+import 'historico_screen.dart';
+>>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -59,7 +63,14 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HistoricoScreen(),
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.history),
                 label: const Text('HISTÓRICO'),
                 style: OutlinedButton.styleFrom(

@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:developer' as developer;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../models/relatorio.dart';
@@ -34,6 +35,10 @@ class RelatorioService {
 
       return jsonData.map((data) => Relatorio.fromJson(data)).toList();
     } catch (e) {
+<<<<<<< HEAD
+=======
+      developer.log('Erro ao listar relatórios: $e');
+>>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
       return [];
     }
   }
@@ -50,6 +55,10 @@ class RelatorioService {
       await file.writeAsString(jsonData);
       return relatorio;
     } catch (e) {
+<<<<<<< HEAD
+=======
+      developer.log('Erro ao salvar relatório: $e');
+>>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
       rethrow;
     }
   }
@@ -61,6 +70,10 @@ class RelatorioService {
       return relatorios.cast<Relatorio>().firstWhere((r) => r.id == id,
           orElse: () => null as Relatorio) as Relatorio?;
     } catch (e) {
+<<<<<<< HEAD
+=======
+      developer.log('Erro ao obter relatório: $e');
+>>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
       return null;
     }
   }
@@ -83,6 +96,10 @@ class RelatorioService {
       await file.writeAsString(jsonData);
       return relatorio;
     } catch (e) {
+<<<<<<< HEAD
+=======
+      developer.log('Erro ao atualizar relatório: $e');
+>>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
       rethrow;
     }
   }
@@ -98,6 +115,10 @@ class RelatorioService {
 
       await file.writeAsString(jsonData);
     } catch (e) {
+<<<<<<< HEAD
+=======
+      developer.log('Erro ao deletar relatório: $e');
+>>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
       rethrow;
     }
   }
@@ -116,6 +137,10 @@ class RelatorioService {
               (r) => r.nomePaciente.toLowerCase().contains(nome.toLowerCase()))
           .toList();
     } catch (e) {
+<<<<<<< HEAD
+=======
+      developer.log('Erro ao buscar relatórios: $e');
+>>>>>>> 27342701e4b4c2d0a6ddaa8da386484f7fef3865
       return [];
     }
   }
