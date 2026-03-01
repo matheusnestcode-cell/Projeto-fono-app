@@ -1,3 +1,5 @@
+// ignore_for_file: cast_from_null_always_fails
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -22,19 +24,16 @@ class RelatorioService {
   Future<List<Relatorio>> listarRelatorios() async {
     try {
       final file = await _getRelatoriosFile();
-      
+
       if (!await file.exists()) {
         return [];
       }
 
       final contents = await file.readAsString();
       final jsonData = jsonDecode(contents) as List;
-      
-      return jsonData
-          .map((data) => Relatorio.fromJson(data))
-          .toList();
+
+      return jsonData.map((data) => Relatorio.fromJson(data)).toList();
     } catch (e) {
-      print('Erro ao listar relatórios: $e');
       return [];
     }
   }
@@ -44,16 +43,13 @@ class RelatorioService {
     try {
       final relatorios = await listarRelatorios();
       relatorios.add(relatorio);
-      
+
       final file = await _getRelatoriosFile();
-      final jsonData = jsonEncode(
-        relatorios.map((r) => r.toJson()).toList()
-      );
-      
+      final jsonData = jsonEncode(relatorios.map((r) => r.toJson()).toList());
+
       await file.writeAsString(jsonData);
       return relatorio;
     } catch (e) {
-      print('Erro ao salvar relatório: $e');
       rethrow;
     }
   }
@@ -62,12 +58,9 @@ class RelatorioService {
   Future<Relatorio?> obterRelatorio(String id) async {
     try {
       final relatorios = await listarRelatorios();
-      return relatorios.firstWhere(
-        (r) => r.id == id,
-        orElse: () => null as Relatorio?,
-      );
+      return relatorios.cast<Relatorio>().firstWhere((r) => r.id == id,
+          orElse: () => null as Relatorio) as Relatorio?;
     } catch (e) {
-      print('Erro ao obter relatório: $e');
       return null;
     }
   }
@@ -77,22 +70,19 @@ class RelatorioService {
     try {
       final relatorios = await listarRelatorios();
       final index = relatorios.indexWhere((r) => r.id == relatorio.id);
-      
+
       if (index == -1) {
         throw Exception('Relatório não encontrado');
       }
-      
+
       relatorios[index] = relatorio;
-      
+
       final file = await _getRelatoriosFile();
-      final jsonData = jsonEncode(
-        relatorios.map((r) => r.toJson()).toList()
-      );
-      
+      final jsonData = jsonEncode(relatorios.map((r) => r.toJson()).toList());
+
       await file.writeAsString(jsonData);
       return relatorio;
     } catch (e) {
-      print('Erro ao atualizar relatório: $e');
       rethrow;
     }
   }
@@ -102,15 +92,12 @@ class RelatorioService {
     try {
       final relatorios = await listarRelatorios();
       relatorios.removeWhere((r) => r.id == id);
-      
+
       final file = await _getRelatoriosFile();
-      final jsonData = jsonEncode(
-        relatorios.map((r) => r.toJson()).toList()
-      );
-      
+      final jsonData = jsonEncode(relatorios.map((r) => r.toJson()).toList());
+
       await file.writeAsString(jsonData);
     } catch (e) {
-      print('Erro ao deletar relatório: $e');
       rethrow;
     }
   }
@@ -125,12 +112,10 @@ class RelatorioService {
     try {
       final relatorios = await listarRelatorios();
       return relatorios
-          .where((r) => r.nomePaciente
-              .toLowerCase()
-              .contains(nome.toLowerCase()))
+          .where(
+              (r) => r.nomePaciente.toLowerCase().contains(nome.toLowerCase()))
           .toList();
     } catch (e) {
-      print('Erro ao buscar relatórios: $e');
       return [];
     }
   }

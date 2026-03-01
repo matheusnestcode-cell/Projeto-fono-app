@@ -1,10 +1,12 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
-import 'package:protocolo_fono/widgets/protocolo_widgets/dialogo_widget.dart';
-import 'package:protocolo_fono/widgets/protocolo_widgets/funcoes_widget.dart';
-import 'package:protocolo_fono/widgets/protocolo_widgets/meios_widget.dart';
-import 'package:protocolo_fono/widgets/protocolo_widgets/compreensao_widget.dart';
-import 'package:protocolo_fono/widgets/protocolo_widgets/cognitivo_widget.dart';
-import 'package:protocolo_fono/screens/resultados_screen.dart';
+import 'package:fono_app/widgets/protocolo_widgets/cognitivo_widget.dart';
+import 'package:fono_app/widgets/protocolo_widgets/compreensao_widget.dart';
+import 'package:fono_app/widgets/protocolo_widgets/dialogo_widget.dart';
+import 'package:fono_app/widgets/protocolo_widgets/funcoes_widget.dart';
+import 'package:fono_app/widgets/protocolo_widgets/meios_widget.dart';
+import 'resultados_screen.dart';
 
 class ProtocoloScreen extends StatefulWidget {
   final String nomePaciente;
@@ -19,7 +21,7 @@ class ProtocoloScreen extends StatefulWidget {
     required this.idadePaciente,
     required this.unidadeIdade,
     required this.escolaridade,
-    required this.motivo,
+    required this.motivo, required DateTime dataNascimento, required DateTime dataPreenchimento,
   });
 
   @override

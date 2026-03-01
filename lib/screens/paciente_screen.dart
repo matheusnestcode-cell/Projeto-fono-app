@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:protocolo_fono/screens/protocolo_screen.dart';
-import 'package:protocolo_fono/utils/constants.dart';
+import 'protocolo_screen.dart';
 
 class PacienteScreen extends StatefulWidget {
   const PacienteScreen({super.key});

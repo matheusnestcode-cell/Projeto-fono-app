@@ -1,23 +1,30 @@
-import 'package:protocolo_fono/models/protocolo.dart';
+import '../models/protocolo.dart';
 
 class CalculadoraService {
   static Map<String, dynamic> calcularResultados(ProtocoloCompleto protocolo) {
     // Calcular totais por seção
-    final totalDialogo = protocolo.dialogo.values.fold(0, (sum, value) => sum + value);
-    final totalFuncoes = protocolo.funcoes.values.fold(0, (sum, value) => sum + value);
-    final totalHabilidades = totalDialogo + totalFuncoes + 
-                           protocolo.meiosComunicacao + protocolo.nivelContextualizacao;
-    
-    final totalManipulacao = protocolo.manipulacao.values.fold(0, (sum, value) => sum + value);
-    final totalCognitivo = totalManipulacao + 
-                          protocolo.desenvolvimentoSimbolismo + 
-                          protocolo.organizacaoBrinquedo;
-    
-    final totalGeral = totalHabilidades + protocolo.compreensaoVerbal + totalCognitivo;
+    final totalDialogo =
+        protocolo.dialogo.values.fold(0, (sum, value) => sum + value);
+    final totalFuncoes =
+        protocolo.funcoes.values.fold(0, (sum, value) => sum + value);
+    final totalHabilidades = totalDialogo +
+        totalFuncoes +
+        protocolo.meiosComunicacao +
+        protocolo.nivelContextualizacao;
+
+    final totalManipulacao =
+        protocolo.manipulacao.values.fold(0, (sum, value) => sum + value);
+    final totalCognitivo = totalManipulacao +
+        protocolo.desenvolvimentoSimbolismo +
+        protocolo.organizacaoBrinquedo;
+
+    final totalGeral =
+        totalHabilidades + protocolo.compreensaoVerbal + totalCognitivo;
 
     // Calcular percentuais
     final percentualHabilidades = (totalHabilidades / 60 * 100).toInt();
-    final percentualCompreensao = (protocolo.compreensaoVerbal / 40 * 100).toInt();
+    final percentualCompreensao =
+        (protocolo.compreensaoVerbal / 40 * 100).toInt();
     final percentualCognitivo = (totalCognitivo / 50 * 100).toInt();
     final percentualGeral = (totalGeral / 150 * 100).toInt();
 
@@ -69,7 +76,8 @@ class CalculadoraService {
     }
   }
 
-  static List<String> _gerarRecomendacoes(ProtocoloCompleto protocolo, int totalGeral) {
+  static List<String> _gerarRecomendacoes(
+      ProtocoloCompleto protocolo, int totalGeral) {
     final recomendacoes = <String>[];
 
     // Analisar habilidades dialógicas
@@ -119,7 +127,7 @@ class CalculadoraService {
 
   static Map<String, dynamic> gerarRelatorio(ProtocoloCompleto protocolo) {
     final resultados = calcularResultados(protocolo);
-    
+
     return {
       'dataAvaliacao': DateTime.now().toIso8601String(),
       'pacienteId': protocolo.pacienteId,

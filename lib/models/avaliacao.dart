@@ -1,4 +1,4 @@
-import 'package:protocolo_fono/models/paciente.dart';
+import 'paciente.dart';
 
 class Avaliacao {
   final Paciente paciente;

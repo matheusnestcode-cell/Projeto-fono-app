@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:protocolo_fono/screens/paciente_screen.dart';
+import 'paciente_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

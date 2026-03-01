@@ -10,12 +10,11 @@ class PDFService {
     final pdf = pw.Document();
 
     final dateFormat = DateFormat('dd/MM/yyyy');
-    final formatter = NumberFormat('#,##0.00', 'pt_BR');
 
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
-        margin: pw.EdgeInsets.all(40),
+        margin: const pw.EdgeInsets.all(40),
         build: (context) => [
           // CABEÇALHO
           pw.Center(
@@ -35,7 +34,7 @@ class PDFService {
 
           // DADOS DO PACIENTE
           pw.Container(
-            padding: pw.EdgeInsets.all(10),
+            padding: const pw.EdgeInsets.all(10),
             decoration: pw.BoxDecoration(
               border: pw.Border.all(),
             ),
@@ -65,7 +64,7 @@ class PDFService {
 
           // TRIAGEM
           pw.Container(
-            padding: pw.EdgeInsets.all(10),
+            padding: const pw.EdgeInsets.all(10),
             decoration: pw.BoxDecoration(
               border: pw.Border.all(),
             ),
@@ -97,7 +96,7 @@ class PDFService {
           // AVALIAÇÕES
           if (relatorio.avaliacoes.isNotEmpty)
             pw.Container(
-              padding: pw.EdgeInsets.all(10),
+              padding: const pw.EdgeInsets.all(10),
               decoration: pw.BoxDecoration(
                 border: pw.Border.all(),
               ),
@@ -143,7 +142,7 @@ class PDFService {
           // DIAGNÓSTICO
           if (relatorio.diagnostico != null)
             pw.Container(
-              padding: pw.EdgeInsets.all(10),
+              padding: const pw.EdgeInsets.all(10),
               decoration: pw.BoxDecoration(
                 border: pw.Border.all(),
               ),
@@ -182,7 +181,7 @@ class PDFService {
           pw.Center(
             child: pw.Text(
               'Relatório gerado em ${dateFormat.format(DateTime.now())}',
-              style: pw.TextStyle(fontSize: 10),
+              style: const pw.TextStyle(fontSize: 10),
             ),
           ),
         ],
