@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/firebase_service.dart';
 import 'register_screen.dart';
 import 'home_screen.dart';
 
@@ -32,12 +33,11 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 30),
-                // Logo/Título
                 Center(
                   child: Column(
                     children: [
                       Icon(
-                        Icons.school,
+                        Icons.medical_services,
                         size: 80,
                         color: Theme.of(context).primaryColor,
                       ),
@@ -56,7 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                // Email
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -78,7 +77,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                // Senha
                 TextFormField(
                   controller: _senhaController,
                   obscureText: _obscureSenha,
@@ -112,7 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 8),
-                // Recuperar Senha
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
@@ -121,7 +118,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                // Botão Login
                 ElevatedButton(
                   onPressed: _loading ? null : _login,
                   style: ElevatedButton.styleFrom(
@@ -144,7 +140,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                 ),
                 const SizedBox(height: 16),
-                // Link para Registro
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -181,16 +176,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() => _loading = true);
 
-    // TODO: Implementar autenticação local ou remota
-    // Por enquanto, apenas navega para a tela inicial
-    await Future.delayed(const Duration(milliseconds: 500));
+    final sucesso = await FirebaseService().login(
+      _emailController.text.trim(),
+      _senhaController.text,
+    );
 
     setState(() => _loading = false);
 
-    if (mounted) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-        (route) => false,
+    if (sucesso && mounted) {
+      Navigator.of(context).pushReplacementNamed('/dashboard');
+    } else if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email ou senha incorretos'),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }
@@ -198,22 +198,27 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _recuperarSenha() async {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Por favor, informe seu email'),
-          ),
-        );
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, informe seu email'),
+        ),
+      );
       return;
     }
 
-    // TODO: Implementar recuperação de senha
+    setState(() => _loading = true);
+    final sucesso = await FirebaseService().resetarSenha(email);
+    setState(() => _loading = false);
+
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Funcionalidade em desenvolvimento'),
-          backgroundColor: Colors.orange,
+        SnackBar(
+          content: Text(
+            sucesso
+                ? 'Email de recuperação enviado'
+                : 'Erro ao enviar email de recuperação',
+          ),
+          backgroundColor: sucesso ? Colors.green : Colors.red,
         ),
       );
     }

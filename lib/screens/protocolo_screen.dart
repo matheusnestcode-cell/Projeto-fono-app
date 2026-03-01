@@ -510,6 +510,9 @@ class _ProtocoloScreenState extends ConsumerState<ProtocoloScreen> {
     // Salvar localmente
     await RelatorioService().salvarRelatorio(relatorio);
 
+    // Salvar no Firebase
+    await FirebaseService().salvarRelatorioFirebase(relatorio);
+
     if (!mounted) return;
 
     // Navegar para resultados

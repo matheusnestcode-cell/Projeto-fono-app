@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/register_screen.dart';
+import 'screens/dashboard_screen.dart';
+import 'screens/perfil_screen.dart';
 import 'theme/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Nota: Firebase.initializeApp() requer configuração prévia do google-services.json/GoogleService-Info.plist
+  // try { await Firebase.initializeApp(); } catch (e) { print('Firebase error: $e'); }
+  
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -20,7 +29,14 @@ class MyApp extends StatelessWidget {
       title: 'Protocolo Fonoaudiológico Digital',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const HomeScreen(),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/dashboard': (context) => const DashboardScreen(),
+        '/perfil': (context) => const PerfilScreen(),
+      },
     );
   }
 }

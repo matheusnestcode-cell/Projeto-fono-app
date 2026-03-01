@@ -34,7 +34,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 20),
-                // Logo/Título
                 Center(
                   child: Column(
                     children: [
@@ -45,20 +44,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        'Nova Conta',
+                        'Nova Conta de Terapeuta',
                         style: Theme.of(context).textTheme.headlineSmall,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        'Crie sua conta para começar',
+                        'Crie sua conta para gerenciar pacientes',
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 30),
-                // Nome do Avaliador
                 TextFormField(
                   controller: _nomeController,
                   decoration: InputDecoration(
@@ -72,14 +70,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, informe seu nome';
                     }
-                    if (value.length < 3) {
-                      return 'O nome deve ter no mínimo 3 caracteres';
-                    }
                     return null;
                   },
                 ),
                 const SizedBox(height: 16),
-                // Email
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -101,7 +95,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                // Senha
                 TextFormField(
                   controller: _senhaController,
                   obscureText: _obscureSenha,
@@ -110,9 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     prefixIcon: const Icon(Icons.lock),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _obscureSenha
-                            ? Icons.visibility_off
-                            : Icons.visibility,
+                        _obscureSenha ? Icons.visibility_off : Icons.visibility,
                       ),
                       onPressed: () {
                         setState(() {
@@ -135,7 +126,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                // Confirmar Senha
                 TextFormField(
                   controller: _senhaConfirmaController,
                   obscureText: _obscureSenhaConfirma,
@@ -144,14 +134,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     prefixIcon: const Icon(Icons.lock),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _obscureSenhaConfirma
-                            ? Icons.visibility_off
-                            : Icons.visibility,
+                        _obscureSenhaConfirma ? Icons.visibility_off : Icons.visibility,
                       ),
                       onPressed: () {
                         setState(() {
-                          _obscureSenhaConfirma =
-                              !_obscureSenhaConfirma;
+                          _obscureSenhaConfirma = !_obscureSenhaConfirma;
                         });
                       },
                     ),
@@ -170,7 +157,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
                 const SizedBox(height: 24),
-                // Botão Registrar
                 ElevatedButton(
                   onPressed: _loading ? null : _registrar,
                   style: ElevatedButton.styleFrom(
@@ -182,9 +168,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           width: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.white,
-                            ),
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
                       : const Text(
@@ -193,7 +177,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                 ),
                 const SizedBox(height: 16),
-                // Link para Login
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
