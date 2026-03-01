@@ -7,11 +7,18 @@ import 'screens/dashboard_screen.dart';
 import 'screens/perfil_screen.dart';
 import 'theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Nota: Firebase.initializeApp() requer configuração prévia do google-services.json/GoogleService-Info.plist
-  // try { await Firebase.initializeApp(); } catch (e) { print('Firebase error: $e'); }
+  
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    debugPrint('Erro ao inicializar Firebase: $e');
+  }
   
   runApp(
     const ProviderScope(

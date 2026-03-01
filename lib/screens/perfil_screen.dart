@@ -121,9 +121,29 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     const SizedBox(height: 16),
                     OutlinedButton.icon(
                       onPressed: () async {
-                        await FirebaseService().logout();
-                        if (mounted) {
-                          Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+                        final confirmar = await showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Sair'),
+                            content: const Text('Deseja realmente sair da conta?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, false),
+                                child: const Text('CANCELAR'),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, true),
+                                child: const Text('SAIR', style: TextStyle(color: Colors.red)),
+                              ),
+                            ],
+                          ),
+                        );
+
+                        if (confirmar == true) {
+                          await FirebaseService().logout();
+                          if (mounted) {
+                            Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+                          }
                         }
                       },
                       icon: const Icon(Icons.logout, color: Colors.red),

@@ -513,8 +513,12 @@ class _ProtocoloScreenState extends ConsumerState<ProtocoloScreen> {
     // Salvar localmente
     await RelatorioService().salvarRelatorio(relatorio);
 
-    // Salvar no Firebase
-    await FirebaseService().salvarRelatorioFirebase(relatorio);
+    // Salvar no Firebase com tratamento de erro silencioso (não bloqueia o usuário)
+    try {
+      await FirebaseService().salvarRelatorioFirebase(relatorio);
+    } catch (e) {
+      debugPrint('Erro ao sincronizar com Firebase: $e');
+    }
 
     if (!mounted) return;
 
