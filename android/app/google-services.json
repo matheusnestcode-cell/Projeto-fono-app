@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:289119811920:android:ba5e43f07540695a229455",
+        "mobilesdk_app_id": "1:289119811920:android:2b7d76777add5a23229455",
         "android_client_info": {
-          "package_name": "com.example.protocolo_fono"
+          "package_name": "com.example.protocolo_fono.beta"
         }
       },
       "oauth_client": [],

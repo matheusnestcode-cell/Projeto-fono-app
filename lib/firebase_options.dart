@@ -60,4 +60,5 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://app-fono-d4315-default-rtdb.firebaseio.com',
     storageBucket: 'app-fono-d4315.firebasestorage.app',
   );
+
 }
